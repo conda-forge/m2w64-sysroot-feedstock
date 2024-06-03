@@ -67,7 +67,6 @@ outputs:
     requirements:
       build:
       host:
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
       run:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
         - __unix   # [unix]
@@ -92,7 +91,9 @@ outputs:
     requirements:
       build:
       host:
+        - ucrt
       run:
+        - ucrt
     about:
       home: https://www.mingw-w64.org/
       license: MIT AND BSD-3-Clause-Clear
@@ -114,7 +115,6 @@ outputs:
     requirements:
       build:
       host:
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
       run:
         - __unix   # [unix]
         - __win    # [win]
@@ -135,13 +135,11 @@ outputs:
     requirements:
       build:
       host:
-        - mingw-w64-ucrt-x86_64-windows-default-manifest
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-crt-git", exact=True) }}
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-winpthreads-git", exact=True) }}
+        - ucrt     # [win]
       run:
         - __unix   # [unix]
         - __win    # [win]
+        - ucrt     # [win]
         - mingw-w64-ucrt-x86_64-windows-default-manifest
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-crt-git", exact=True) }}
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
