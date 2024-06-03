@@ -94,6 +94,8 @@ outputs:
         - ucrt
       run:
         - ucrt
+      run_constrained:
+        - msys2-conda-epoch <0.0a0
     about:
       home: https://www.mingw-w64.org/
       license: MIT AND BSD-3-Clause-Clear
