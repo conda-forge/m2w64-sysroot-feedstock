@@ -92,7 +92,9 @@ outputs:
     requirements:
       build:
       host:
+        - ucrt
       run:
+        - ucrt
     about:
       home: https://www.mingw-w64.org/
       license: MIT AND BSD-3-Clause-Clear
