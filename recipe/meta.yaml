@@ -82,7 +82,7 @@ outputs:
       summary: |
         MinGW-w64 winpthreads library (mingw-w64)
 
-  - name: mingw-w64-ucrt-x86_64-libwinpthread-git
+  - name: libwinpthread
     script: install.sh
     files:
       - Library/bin/libwinpthread-1.dll
@@ -132,6 +132,8 @@ outputs:
     script: copy.sh
     build:
       noarch: generic
+      run_exports:
+        - libwinpthread >={{ PKG_VERSION }}
     requirements:
       build:
       host:
