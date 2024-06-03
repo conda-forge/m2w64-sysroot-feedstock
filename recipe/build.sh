@@ -10,7 +10,7 @@ fi
 # remove this hack, but let's build this package
 # first to remove binary re-packaging
 conda create -p $SRC_DIR/cf-compilers gcc_impl_win-64 make \
-  --yes --quiet -c conda-forge/label/m2w64-experimental -c conda-forge
+  --yes --quiet -c conda-forge
 
 export PATH=$SRC_DIR/cf-compilers/bin:$PATH
 
