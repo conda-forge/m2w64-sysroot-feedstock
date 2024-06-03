@@ -67,7 +67,6 @@ outputs:
     requirements:
       build:
       host:
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
       run:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
         - __unix   # [unix]
@@ -116,7 +115,6 @@ outputs:
     requirements:
       build:
       host:
-        - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
       run:
         - __unix   # [unix]
         - __win    # [win]
