@@ -135,9 +135,11 @@ outputs:
     requirements:
       build:
       host:
+        - ucrt     # [win]
       run:
         - __unix   # [unix]
         - __win    # [win]
+        - ucrt     # [win]
         - mingw-w64-ucrt-x86_64-windows-default-manifest
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-crt-git", exact=True) }}
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
