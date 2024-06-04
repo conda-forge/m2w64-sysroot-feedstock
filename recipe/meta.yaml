@@ -2,7 +2,7 @@
 
 package:
   name: {{ name|lower }}
-  version: {{ GIT_DESCRIBE_TAG }}.r{{ GIT_DESCRIBE_NUMBER }}.g{{ GIT_DESCRIBE_HASH }}
+  version: {{ GIT_DESCRIBE_TAG[1:] }}.r{{ GIT_DESCRIBE_NUMBER }}.g{{ GIT_DESCRIBE_HASH }}
 
 source:
   git_url: https://github.com/mingw-w64/mingw-w64
@@ -82,7 +82,7 @@ outputs:
       summary: |
         MinGW-w64 winpthreads library (mingw-w64)
 
-  - name: mingw-w64-ucrt-x86_64-libwinpthread-git
+  - name: libwinpthread
     script: install.sh
     files:
       - Library/bin/libwinpthread-1.dll
@@ -94,6 +94,8 @@ outputs:
         - ucrt
       run:
         - ucrt
+      run_constrained:
+        - msys2-conda-epoch <0.0a0
     about:
       home: https://www.mingw-w64.org/
       license: MIT AND BSD-3-Clause-Clear
@@ -132,6 +134,8 @@ outputs:
     script: copy.sh
     build:
       noarch: generic
+      run_exports:
+        - libwinpthread >={{ PKG_VERSION }}
     requirements:
       build:
       host:
