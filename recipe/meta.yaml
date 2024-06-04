@@ -2,7 +2,7 @@
 
 package:
   name: {{ name|lower }}
-  version: {{ GIT_DESCRIBE_TAG }}.r{{ GIT_DESCRIBE_NUMBER }}.g{{ GIT_DESCRIBE_HASH }}
+  version: {{ GIT_DESCRIBE_TAG[1:] }}.r{{ GIT_DESCRIBE_NUMBER }}.g{{ GIT_DESCRIBE_HASH }}
 
 source:
   git_url: https://github.com/mingw-w64/mingw-w64
