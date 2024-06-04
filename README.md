@@ -53,8 +53,8 @@ Package license:
 Summary: MinGW-w64 sysroot for Windows
 
 
-About mingw-w64-ucrt-x86_64-libwinpthread-git
----------------------------------------------
+About libwinpthread
+-------------------
 
 Home: https://www.mingw-w64.org/
 
@@ -107,10 +107,10 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libwinpthread-green.svg)](https://anaconda.org/conda-forge/libwinpthread) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libwinpthread.svg)](https://anaconda.org/conda-forge/libwinpthread) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libwinpthread.svg)](https://anaconda.org/conda-forge/libwinpthread) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libwinpthread.svg)](https://anaconda.org/conda-forge/libwinpthread) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-m2w64--sysroot_win--64-green.svg)](https://anaconda.org/conda-forge/m2w64-sysroot_win-64) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/m2w64-sysroot_win-64.svg)](https://anaconda.org/conda-forge/m2w64-sysroot_win-64) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/m2w64-sysroot_win-64.svg)](https://anaconda.org/conda-forge/m2w64-sysroot_win-64) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/m2w64-sysroot_win-64.svg)](https://anaconda.org/conda-forge/m2w64-sysroot_win-64) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mingw--w64--ucrt--x86_64--crt--git-green.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-crt-git) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mingw-w64-ucrt-x86_64-crt-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-crt-git) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mingw-w64-ucrt-x86_64-crt-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-crt-git) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mingw-w64-ucrt-x86_64-crt-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-crt-git) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mingw--w64--ucrt--x86_64--headers--git-green.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-headers-git) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mingw-w64-ucrt-x86_64-headers-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-headers-git) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mingw-w64-ucrt-x86_64-headers-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-headers-git) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mingw-w64-ucrt-x86_64-headers-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-headers-git) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-mingw--w64--ucrt--x86_64--libwinpthread--git-green.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-libwinpthread-git) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-mingw--w64--ucrt--x86_64--winpthreads--git-green.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git.svg)](https://anaconda.org/conda-forge/mingw-w64-ucrt-x86_64-winpthreads-git) |
 
 Installing m2w64-sysroot
@@ -123,41 +123,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `m2w64-sysroot_win-64, mingw-w64-ucrt-x86_64-crt-git, mingw-w64-ucrt-x86_64-headers-git, mingw-w64-ucrt-x86_64-libwinpthread-git, mingw-w64-ucrt-x86_64-winpthreads-git` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libwinpthread, m2w64-sysroot_win-64, mingw-w64-ucrt-x86_64-crt-git, mingw-w64-ucrt-x86_64-headers-git, mingw-w64-ucrt-x86_64-winpthreads-git` can be installed with `conda`:
 
 ```
-conda install m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-libwinpthread-git mingw-w64-ucrt-x86_64-winpthreads-git
-```
-
-or with `mamba`:
-
-```
-mamba install m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-libwinpthread-git mingw-w64-ucrt-x86_64-winpthreads-git
-```
-
-It is possible to list all of the versions of `m2w64-sysroot_win-64` available on your platform with `conda`:
-
-```
-conda search m2w64-sysroot_win-64 --channel conda-forge
+conda install libwinpthread m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-winpthreads-git
 ```
 
 or with `mamba`:
 
 ```
-mamba search m2w64-sysroot_win-64 --channel conda-forge
+mamba install libwinpthread m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-winpthreads-git
+```
+
+It is possible to list all of the versions of `libwinpthread` available on your platform with `conda`:
+
+```
+conda search libwinpthread --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search libwinpthread --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search m2w64-sysroot_win-64 --channel conda-forge
+mamba repoquery search libwinpthread --channel conda-forge
 
-# List packages depending on `m2w64-sysroot_win-64`:
-mamba repoquery whoneeds m2w64-sysroot_win-64 --channel conda-forge
+# List packages depending on `libwinpthread`:
+mamba repoquery whoneeds libwinpthread --channel conda-forge
 
-# List dependencies of `m2w64-sysroot_win-64`:
-mamba repoquery depends m2w64-sysroot_win-64 --channel conda-forge
+# List dependencies of `libwinpthread`:
+mamba repoquery depends libwinpthread --channel conda-forge
 ```
 
 
