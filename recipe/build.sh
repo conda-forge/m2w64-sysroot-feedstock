@@ -26,5 +26,5 @@ popd
 
 make -j${CPU_COUNT}
 
-${AR} rcs libssp.a
-${AR} rcs libssp_nonshared.a
+${HOST}-ar rcs libssp.a
+${HOST}-ar rcs libssp_nonshared.a
