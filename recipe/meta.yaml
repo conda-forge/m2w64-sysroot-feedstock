@@ -12,7 +12,7 @@ source:
     - 0002-heades-add-full-name-winrt.patch
 
 build:
-  number: 4
+  number: 5
 
 requirements:
   build:
@@ -59,11 +59,11 @@ outputs:
     files:
       - x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
       - x86_64-w64-mingw32/sysroot/usr/include/sched.h
-      - x86_64-w64-mingw32/sysroot/usr/include/pthread_*.h
+      - x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
       - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
       - Library/x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
       - Library/x86_64-w64-mingw32/sysroot/usr/include/sched.h
-      - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread_*.h
+      - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
       - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
     build:
       noarch: generic
