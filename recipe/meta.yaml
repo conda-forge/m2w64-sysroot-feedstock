@@ -12,11 +12,11 @@ source:
     - 0002-heades-add-full-name-winrt.patch
 
 build:
-  number: 3
+  number: 4
 
 requirements:
   build:
-    - gcc_impl_win-64
+    - gcc_bootstrap_win-64
     - make
   host:
   run:
@@ -35,6 +35,8 @@ outputs:
       noarch: generic
     requirements:
       build:
+        - gcc_bootstrap_win-64
+        - make
       host:
       run:
         - __unix   # [unix]
@@ -67,6 +69,8 @@ outputs:
       noarch: generic
     requirements:
       build:
+        - gcc_bootstrap_win-64
+        - make
       host:
       run:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
@@ -91,6 +95,8 @@ outputs:
       skip: True  # [not win]
     requirements:
       build:
+        - gcc_bootstrap_win-64
+        - make
       host:
         - ucrt
       run:
@@ -118,6 +124,8 @@ outputs:
       noarch: generic
     requirements:
       build:
+        - gcc_bootstrap_win-64
+        - make
       host:
       run:
         - __unix   # [unix]
@@ -137,9 +145,12 @@ outputs:
     build:
       noarch: generic
       run_exports:
-        - libwinpthread >={{ PKG_VERSION }}
+        strong:
+          - libwinpthread >={{ PKG_VERSION }}
     requirements:
       build:
+        - gcc_bootstrap_win-64
+        - make
       host:
         - ucrt     # [win]
       run:
