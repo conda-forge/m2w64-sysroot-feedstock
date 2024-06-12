@@ -12,15 +12,14 @@ source:
     - 0002-heades-add-full-name-winrt.patch
 
 build:
-  number: 6
+  number: 7
+  merge_build_host: false
 
 requirements:
   build:
     - gcc_bootstrap_win-64
     - make
   host:
-    # Add a package here to prevent build host merge
-    - tzdata
   run:
 
 test:
@@ -35,13 +34,12 @@ outputs:
       - Library/x86_64-w64-mingw32/sysroot/usr/include
     build:
       noarch: generic
+      merge_build_host: false
     requirements:
       build:
         - gcc_bootstrap_win-64
         - make
       host:
-        # Add a package here to prevent build host merge
-        - tzdata
       run:
         - __unix   # [unix]
         - __win    # [win]
@@ -71,13 +69,12 @@ outputs:
       - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
     build:
       noarch: generic
+      merge_build_host: false
     requirements:
       build:
         - gcc_bootstrap_win-64
         - make
       host:
-        # Add a package here to prevent build host merge
-        - tzdata
       run:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
         - __unix   # [unix]
@@ -103,6 +100,7 @@ outputs:
       - Library/bin/libwinpthread-1.dll
     build:
       skip: True  # [not win]
+      merge_build_host: false
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -132,13 +130,12 @@ outputs:
       - Library/x86_64-w64-mingw32/sysroot/usr/lib
     build:
       noarch: generic
+      merge_build_host: false
     requirements:
       build:
         - gcc_bootstrap_win-64
         - make
       host:
-        # Add a package here to prevent build host merge
-        - tzdata
       run:
         - __unix   # [unix]
         - __win    # [win]
@@ -159,13 +156,12 @@ outputs:
       run_exports:
         strong:
           - libwinpthread >={{ PKG_VERSION }}
+      merge_build_host: false
     requirements:
       build:
         - gcc_bootstrap_win-64
         - make
       host:
-        # Add a package here to prevent build host merge
-        - tzdata
         - ucrt     # [win]
       run:
         - __unix   # [unix]
