@@ -12,13 +12,15 @@ source:
     - 0002-heades-add-full-name-winrt.patch
 
 build:
-  number: 5
+  number: 6
 
 requirements:
   build:
     - gcc_bootstrap_win-64
     - make
   host:
+    # Add a package here to prevent build host merge
+    - tzdata
   run:
 
 test:
@@ -38,6 +40,8 @@ outputs:
         - gcc_bootstrap_win-64
         - make
       host:
+        # Add a package here to prevent build host merge
+        - tzdata
       run:
         - __unix   # [unix]
         - __win    # [win]
@@ -72,12 +76,18 @@ outputs:
         - gcc_bootstrap_win-64
         - make
       host:
+        # Add a package here to prevent build host merge
+        - tzdata
       run:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
         - __unix   # [unix]
         - __win    # [win]
       run_constrained:
         - mingw-w64-ucrt-x86_64-crt-git {{ PKG_VERSION }}.*
+    test:
+      commands:
+        - test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/pthread.h      # [unix]
+        - test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/sched.h        # [unix]
     about:
       home: https://www.mingw-w64.org/
       license: MIT AND BSD-3-Clause-Clear
@@ -127,6 +137,8 @@ outputs:
         - gcc_bootstrap_win-64
         - make
       host:
+        # Add a package here to prevent build host merge
+        - tzdata
       run:
         - __unix   # [unix]
         - __win    # [win]
@@ -152,6 +164,8 @@ outputs:
         - gcc_bootstrap_win-64
         - make
       host:
+        # Add a package here to prevent build host merge
+        - tzdata
         - ucrt     # [win]
       run:
         - __unix   # [unix]
@@ -161,6 +175,10 @@ outputs:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-crt-git", exact=True) }}
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-winpthreads-git", exact=True) }}
+    test:
+      commands:
+        - test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/pthread.h      # [unix]
+        - test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/ucrt64/include/pthread.h   # [unix]
     about:
       home: https://mingw-w64.sourceforge.io/
       summary: |
