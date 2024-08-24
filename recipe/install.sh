@@ -17,6 +17,13 @@ if [[ "$PKG_NAME" == *-headers-* ]]; then
   rm ${INSTALL_PREFIX}/include/*.c
 elif [[ "$PKG_NAME" == *-crt-* ]]; then
   rm ${INSTALL_PREFIX}/lib/lib*pthread*.a
+else
+  mkdir -p ${PREFIX}/Library/include
+  mkdir -p ${PREFIX}/Library/lib
+  cp ${INSTALL_PREFIX}/lib/lib*pthread*.a ${PREFIX}/Library/lib/
+  cp ${INSTALL_PREFIX}/lib/pthread*.h ${PREFIX}/Library/include/
+  cp ${INSTALL_PREFIX}/lib/semaphore.h ${PREFIX}/Library/include/
+  cp ${INSTALL_PREFIX}/lib/sched.h ${PREFIX}/Library/include/
 fi
 
 mkdir -p ${PREFIX}/Library/bin
