@@ -121,6 +121,43 @@ outputs:
       summary: |
         MinGW-w64 winpthreads library (mingw-w64)
 
+  - name: winpthreads-devel
+    script: install.sh
+    files:
+      - include/semaphore.h
+      - include/sched.h
+      - include/pthread*.h
+      - lib/lib*pthread*.a
+      - Library/include/semaphore.h
+      - Library/include/sched.h
+      - Library/include/pthread*.h
+      - Library/lib/lib*pthread*.a
+    build:
+      skip: True  # [not win]
+      merge_build_host: false
+      run_exports:
+        - {{ pin_subpackage("libwinpthread", max_pin=None) }}
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+        - {{ pin_subpackage("libwinpthread", exact=True) }}
+      run:
+        - {{ pin_subpackage("libwinpthread", exact=True) }}
+    test:
+      commands:
+        - test -f ${PREFIX}/Library/include/pthread.h      # [unix]
+        - test -f ${PREFIX}/Library/include/sched.h        # [unix]
+    about:
+      home: https://www.mingw-w64.org/
+      license: MIT AND BSD-3-Clause-Clear
+      license_file:
+        - mingw-w64-libraries/winpthreads/COPYING
+        - COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+      summary: |
+        MinGW-w64 winpthreads library headers
+
   - name: mingw-w64-ucrt-x86_64-crt-git
     script: install.sh
     files:
