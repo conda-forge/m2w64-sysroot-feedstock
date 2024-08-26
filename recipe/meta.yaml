@@ -10,9 +10,10 @@ source:
   patches:
     - 0001-Allow-to-use-bessel-and-complex-functions-without-un.patch
     - 0002-heades-add-full-name-winrt.patch
+    - 0003-use-pthread_compat.h-in-sched.h.patch
 
 build:
-  number: 7
+  number: 8
   merge_build_host: false
 
 requirements:
