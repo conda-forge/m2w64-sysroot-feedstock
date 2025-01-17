@@ -24,6 +24,7 @@ else
   cp ${INSTALL_PREFIX}/include/pthread*.h ${PREFIX}/Library/include/
   cp ${INSTALL_PREFIX}/include/semaphore.h ${PREFIX}/Library/include/
   cp ${INSTALL_PREFIX}/include/sched.h ${PREFIX}/Library/include/
+  cp ${INSTALL_PREFIX}/lib/libwinpthread.dll.a ${PREFIX}/Library/lib/pthread.lib
 fi
 
 mkdir -p ${PREFIX}/Library/bin
