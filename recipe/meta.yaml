@@ -13,7 +13,7 @@ source:
     - 0003-use-pthread_compat.h-in-sched.h.patch
 
 build:
-  number: 8
+  number: 9
   merge_build_host: false
 
 requirements:
@@ -125,14 +125,11 @@ outputs:
   - name: winpthreads-devel
     script: install.sh
     files:
-      - include/semaphore.h
-      - include/sched.h
-      - include/pthread*.h
-      - lib/lib*pthread*.a
       - Library/include/semaphore.h
       - Library/include/sched.h
       - Library/include/pthread*.h
       - Library/lib/lib*pthread*.a
+      - Library/lib/pthread.lib
     build:
       skip: True  # [not win]
       merge_build_host: false
