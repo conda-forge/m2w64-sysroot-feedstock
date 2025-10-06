@@ -13,7 +13,7 @@ source:
     - 0003-use-pthread_compat.h-in-sched.h.patch
 
 build:
-  number: 9
+  number: 10
   merge_build_host: false
 
 requirements:
@@ -43,7 +43,7 @@ outputs:
       host:
       run:
         - __unix   # [unix]
-        - __win    # [win]
+        - m2-conda-epoch    # [win]
       run_constrained:
         - mingw-w64-ucrt-x86_64-crt-git {{ PKG_VERSION }}.*
         - mingw-w64-ucrt-x86_64-winpthreads-git {{ PKG_VERSION }}.*
@@ -79,7 +79,7 @@ outputs:
       run:
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
         - __unix   # [unix]
-        - __win    # [win]
+        - m2-conda-epoch    # [win]
       run_constrained:
         - mingw-w64-ucrt-x86_64-crt-git {{ PKG_VERSION }}.*
     test:
@@ -173,7 +173,7 @@ outputs:
       host:
       run:
         - __unix   # [unix]
-        - __win    # [win]
+        - m2-conda-epoch    # [win]
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
       run_constrained:
         - mingw-w64-ucrt-x86_64-winpthreads-git {{ PKG_VERSION }}.*
@@ -200,7 +200,7 @@ outputs:
         - ucrt     # [win]
       run:
         - __unix   # [unix]
-        - __win    # [win]
+        - m2-conda-epoch    # [win]
         - ucrt     # [win]
         - mingw-w64-ucrt-x86_64-windows-default-manifest
         - {{ pin_subpackage("mingw-w64-ucrt-x86_64-crt-git", exact=True) }}
