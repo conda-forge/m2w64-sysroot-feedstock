@@ -1,3 +1,6 @@
+mkdir -p ${PREFIX}/etc/conda-build/dsolists.d
+cp ${RECIPE_DIR}/vcruntime.json ${PREFIX}/etc/conda-build/dsolists.d/vcruntime_m2w64_win-64.json
+
 # Temporary hacks. Remove after bootstrapping is done
 
 HOST=x86_64-w64-mingw32
