@@ -1,4 +1,5 @@
 mkdir -p ${PREFIX}/etc/conda-build/dsolists.d
+# Implement CEP-28
 cp ${RECIPE_DIR}/vcruntime.json ${PREFIX}/etc/conda-build/dsolists.d/vcruntime_m2w64_win-64.json
 
 # Temporary hacks. Remove after bootstrapping is done
