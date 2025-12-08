@@ -1,0 +1,244 @@
+schema_version: 1
+
+context:
+  name: m2w64-sysroot
+
+recipe:
+  name: ${{ name|lower }}
+  version: ${{ GIT_DESCRIBE_TAG[1:] }}.r${{ GIT_DESCRIBE_NUMBER }}.g${{ GIT_DESCRIBE_HASH }}
+
+source:
+  git: https://github.com/mingw-w64/mingw-w64
+  rev: dc42231f0
+  patches:
+    - 0001-Allow-to-use-bessel-and-complex-functions-without-un.patch
+    - 0002-heades-add-full-name-winrt.patch
+    - 0003-use-pthread_compat.h-in-sched.h.patch
+
+build:
+  number: 10
+
+outputs:
+  - package:
+      name: mingw-w64-ucrt-x86_64-headers-git
+    files:
+      - x86_64-w64-mingw32/sysroot/usr/include
+      - Library/x86_64-w64-mingw32/sysroot/usr/include
+    build:
+      noarch: generic
+      script: install.sh
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+      run:
+        - if: unix
+          then: __unix
+        - if: win
+          then: m2-conda-epoch
+      run_constraints:
+        - mingw-w64-ucrt-x86_64-crt-git ${{ PKG_VERSION }}.*
+        - mingw-w64-ucrt-x86_64-winpthreads-git ${{ PKG_VERSION }}.*
+    about:
+      license: ZPL-2.1 AND LGPL-2.1-or-later
+      license_file:
+        - mingw-w64-headers/ddk/readme.txt
+        - COPYING
+        - COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+      summary: |
+        MinGW-w64 headers for Windows (mingw-w64)
+      homepage: https://www.mingw-w64.org/
+
+  - package:
+      name: mingw-w64-ucrt-x86_64-winpthreads-git
+    files:
+      - x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
+      - x86_64-w64-mingw32/sysroot/usr/include/sched.h
+      - x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+      - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+      - Library/x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
+      - Library/x86_64-w64-mingw32/sysroot/usr/include/sched.h
+      - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+      - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+    build:
+      noarch: generic
+      merge_build_and_host_envs: false
+      script: install.sh
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+      run:
+        - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
+        - if: unix
+          then: __unix
+        - if: win
+          then: m2-conda-epoch
+      run_constraints:
+        - mingw-w64-ucrt-x86_64-crt-git ${{ PKG_VERSION }}.*
+    tests:
+      - script:
+          - if: unix
+            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/pthread.h
+          - if: unix
+            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/sched.h
+    about:
+      license: MIT AND BSD-3-Clause-Clear
+      license_file:
+        - mingw-w64-libraries/winpthreads/COPYING
+        - COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+      summary: |
+        MinGW-w64 winpthreads library (mingw-w64)
+      homepage: https://www.mingw-w64.org/
+
+  - package:
+      name: libwinpthread
+    files:
+      - Library/bin/libwinpthread-1.dll
+    build:
+      skip: not win
+      merge_build_and_host_envs: false
+      script: install.sh
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+        - ucrt
+      run:
+        - ucrt
+      run_constraints:
+        - msys2-conda-epoch <0.0a0
+        - pthreads-win32 <0.0a0
+    about:
+      license: MIT AND BSD-3-Clause-Clear
+      license_file:
+        - mingw-w64-libraries/winpthreads/COPYING
+        - COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+      summary: |
+        MinGW-w64 winpthreads library (mingw-w64)
+      homepage: https://www.mingw-w64.org/
+
+  - package:
+      name: winpthreads-devel
+    files:
+      - Library/include/semaphore.h
+      - Library/include/sched.h
+      - Library/include/pthread*.h
+      - Library/lib/lib*pthread*.a
+      - Library/lib/pthread.lib
+    build:
+      skip: not win
+      merge_build_and_host_envs: false
+      script: install.sh
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+        - ${{ pin_subpackage("libwinpthread", exact=True) }}
+      run:
+        - ${{ pin_subpackage("libwinpthread", exact=True) }}
+      run_exports:
+        - ${{ pin_subpackage("libwinpthread", upper_bound=None) }}
+    tests:
+      - script:
+          - if: unix
+            then: test -f ${PREFIX}/Library/include/pthread.h
+          - if: unix
+            then: test -f ${PREFIX}/Library/include/sched.h
+    about:
+      license: MIT AND BSD-3-Clause-Clear
+      license_file:
+        - mingw-w64-libraries/winpthreads/COPYING
+        - COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+      summary: |
+        MinGW-w64 winpthreads library headers
+      homepage: https://www.mingw-w64.org/
+
+  - package:
+      name: mingw-w64-ucrt-x86_64-crt-git
+    files:
+      - x86_64-w64-mingw32/sysroot/usr/include/*.c
+      - x86_64-w64-mingw32/sysroot/usr/lib
+      - Library/x86_64-w64-mingw32/sysroot/usr/include/*.c
+      - Library/x86_64-w64-mingw32/sysroot/usr/lib
+    build:
+      noarch: generic
+      merge_build_and_host_envs: false
+      script: install.sh
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+      run:
+        - if: unix
+          then: __unix
+        - if: win
+          then: m2-conda-epoch
+        - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
+      run_constraints:
+        - mingw-w64-ucrt-x86_64-winpthreads-git ${{ PKG_VERSION }}.*
+    about:
+      license: ZPL-2.1
+      license_file: COPYING
+      summary: |
+        MinGW-w64 CRT for Windows (mingw-w64)
+      homepage: https://www.mingw-w64.org/
+
+  - package:
+      name: m2w64-sysroot_win-64
+    build:
+      noarch: generic
+      merge_build_and_host_envs: false
+      script: copy.sh
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+      host:
+        - if: win
+          then: ucrt
+      run:
+        - if: unix
+          then: __unix
+        - if: win
+          then: m2-conda-epoch
+        - if: win
+          then: ucrt
+        - mingw-w64-ucrt-x86_64-windows-default-manifest
+        - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-crt-git", exact=True) }}
+        - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
+        - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-winpthreads-git", exact=True) }}
+      run_exports:
+        strong:
+          - libwinpthread >=${{ PKG_VERSION }}
+    tests:
+      - script:
+          - if: unix
+            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/pthread.h
+          - if: unix
+            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/ucrt64/include/pthread.h
+    about:
+      summary: |
+        MinGW-w64 sysroot for Windows
+      homepage: https://mingw-w64.sourceforge.io/
+
+tests:
+  - script:
+      - echo "hello"
+
+about:
+  summary: A complete runtime environment for GCC & LLVM for 32 and 64 bit windows
+  license: ZPL-2.1 AND LGPL-2.1-or-later and MIT AND BSD-3-Clause-Clear
+  license_file:
+    - COPYING
+    - COPYING.MinGW-w64/COPYING.MinGW-w64.txt
+  homepage: https://github.com/mingw-w64/mingw-64
+
+extra:
+  recipe-maintainers:
+    - isuruf
