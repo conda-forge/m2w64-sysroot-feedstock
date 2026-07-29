@@ -40,7 +40,11 @@ outputs:
     inherit: m2w64-sysroot-stage
     build:
       noarch: generic
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          # work-around for r-b using noarch
+          target_platform: ${{ target_platform }}
       files:
         - x86_64-w64-mingw32/sysroot/usr/include
         - Library/x86_64-w64-mingw32/sysroot/usr/include
@@ -80,7 +84,10 @@ outputs:
     build:
       noarch: generic
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
       files:
         - x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
         - x86_64-w64-mingw32/sysroot/usr/include/sched.h
@@ -128,7 +135,10 @@ outputs:
     build:
       skip: not win
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
       files:
         - Library/bin/libwinpthread-1.dll
     requirements:
@@ -161,7 +171,10 @@ outputs:
     build:
       skip: not win
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
       files:
         - Library/include/semaphore.h
         - Library/include/sched.h
@@ -205,7 +218,10 @@ outputs:
     build:
       noarch: generic
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
       files:
         - x86_64-w64-mingw32/sysroot/usr/include/*.c
         - x86_64-w64-mingw32/sysroot/usr/lib
@@ -244,7 +260,10 @@ outputs:
     build:
       noarch: generic
       merge_build_and_host_envs: false
-      script: copy.sh
+      script:
+        file: copy.sh
+        env:
+          target_platform: ${{ target_platform }}
     requirements:
       build:
         - gcc_bootstrap_win-64
