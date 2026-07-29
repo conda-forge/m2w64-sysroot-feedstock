@@ -11,12 +11,9 @@ mkdir -p ${INSTALL_PREFIX}/lib
 cp libssp*.a ${INSTALL_PREFIX}/lib/
 
 if [[ "$PKG_NAME" == *-headers-* ]]; then
-  rm ${INSTALL_PREFIX}/include/pthread*.h
-  rm ${INSTALL_PREFIX}/include/semaphore.h
-  rm ${INSTALL_PREFIX}/include/sched.h
-  rm ${INSTALL_PREFIX}/include/*.c
+  true
 elif [[ "$PKG_NAME" == *-crt-* ]]; then
-  rm ${INSTALL_PREFIX}/lib/lib*pthread*.a
+  true
 else
   mkdir -p ${PREFIX}/Library/include
   mkdir -p ${PREFIX}/Library/lib
