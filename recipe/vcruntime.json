@@ -9,5 +9,5 @@
     "**/vcruntime140d.dll",
     "**/vcomp.dll"
   ],
-  "subdir": "win-64",
+  "subdir": "win-64"
 }

@@ -1,11 +1,17 @@
 schema_version: 1
 
 context:
-  name: m2w64-sysroot
+  # replicate GIT_* variables based on output of `git describe --tags dc42231f0 [+local patches]`, c.f.
+  # https://github.com/conda/conda-build/blob/26.5.0/conda_build/environ.py#L253-L265
+  # https://docs.conda.io/projects/conda-build/en/stable/user-guide/environment-variables.html#git-environment-variables
+  GIT_DESCRIBE_TAG: "v12.0.0"
+  GIT_DESCRIBE_NUMBER: "4"
+  GIT_DESCRIBE_HASH: "g4f2fc60ca"
+  version: ${{ GIT_DESCRIBE_TAG[1:] }}.r${{ GIT_DESCRIBE_NUMBER }}.g${{ GIT_DESCRIBE_HASH }}
 
 recipe:
-  name: ${{ name|lower }}
-  version: ${{ GIT_DESCRIBE_TAG[1:] }}.r${{ GIT_DESCRIBE_NUMBER }}.g${{ GIT_DESCRIBE_HASH }}
+  name: m2w64-sysroot
+  version: ${{ version }}
 
 source:
   git: https://github.com/mingw-w64/mingw-w64
@@ -16,17 +22,32 @@ source:
     - 0003-use-pthread_compat.h-in-sched.h.patch
 
 build:
-  number: 10
+  number: 11
 
 outputs:
+  - staging:
+      name: m2w64-sysroot-stage
+    build:
+      script:
+        file: build
+    requirements:
+      build:
+        - gcc_bootstrap_win-64
+        - make
+
   - package:
       name: mingw-w64-ucrt-x86_64-headers-git
-    files:
-      - x86_64-w64-mingw32/sysroot/usr/include
-      - Library/x86_64-w64-mingw32/sysroot/usr/include
+    inherit: m2w64-sysroot-stage
     build:
       noarch: generic
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          # work-around for r-b using noarch
+          target_platform: ${{ target_platform }}
+      files:
+        - x86_64-w64-mingw32/sysroot/usr/include
+        - Library/x86_64-w64-mingw32/sysroot/usr/include
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -38,8 +59,15 @@ outputs:
         - if: win
           then: m2-conda-epoch
       run_constraints:
-        - mingw-w64-ucrt-x86_64-crt-git ${{ PKG_VERSION }}.*
-        - mingw-w64-ucrt-x86_64-winpthreads-git ${{ PKG_VERSION }}.*
+        - mingw-w64-ucrt-x86_64-crt-git ${{ version }}.*
+        - mingw-w64-ucrt-x86_64-winpthreads-git ${{ version }}.*
+    tests:
+      - package_contents:
+          files:
+            # sample test as stand-in for many
+            - if: unix
+              then: x86_64-w64-mingw32/sysroot/usr/include/_mingw.h
+              else: Library/x86_64-w64-mingw32/sysroot/usr/include/_mingw.h
     about:
       license: ZPL-2.1 AND LGPL-2.1-or-later
       license_file:
@@ -52,19 +80,23 @@ outputs:
 
   - package:
       name: mingw-w64-ucrt-x86_64-winpthreads-git
-    files:
-      - x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
-      - x86_64-w64-mingw32/sysroot/usr/include/sched.h
-      - x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
-      - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
-      - Library/x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
-      - Library/x86_64-w64-mingw32/sysroot/usr/include/sched.h
-      - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
-      - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+    inherit: m2w64-sysroot-stage
     build:
       noarch: generic
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
+      files:
+        - x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
+        - x86_64-w64-mingw32/sysroot/usr/include/sched.h
+        - x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+        - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+        - Library/x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
+        - Library/x86_64-w64-mingw32/sysroot/usr/include/sched.h
+        - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+        - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -77,13 +109,17 @@ outputs:
         - if: win
           then: m2-conda-epoch
       run_constraints:
-        - mingw-w64-ucrt-x86_64-crt-git ${{ PKG_VERSION }}.*
+        - mingw-w64-ucrt-x86_64-crt-git ${{ version }}.*
     tests:
-      - script:
-          - if: unix
-            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/pthread.h
-          - if: unix
-            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/sched.h
+      - package_contents:
+          files:
+            - if: unix
+              then:
+                - x86_64-w64-mingw32/sysroot/usr/include/pthread.h
+                - x86_64-w64-mingw32/sysroot/usr/include/sched.h
+              else:
+                - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread.h
+                - Library/x86_64-w64-mingw32/sysroot/usr/include/sched.h
     about:
       license: MIT AND BSD-3-Clause-Clear
       license_file:
@@ -95,12 +131,16 @@ outputs:
 
   - package:
       name: libwinpthread
-    files:
-      - Library/bin/libwinpthread-1.dll
+    inherit: m2w64-sysroot-stage
     build:
       skip: not win
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
+      files:
+        - Library/bin/libwinpthread-1.dll
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -112,6 +152,10 @@ outputs:
       run_constraints:
         - msys2-conda-epoch <0.0a0
         - pthreads-win32 <0.0a0
+    tests:
+      - package_contents:
+          files:
+            - Library/bin/libwinpthread-1.dll
     about:
       license: MIT AND BSD-3-Clause-Clear
       license_file:
@@ -123,16 +167,20 @@ outputs:
 
   - package:
       name: winpthreads-devel
-    files:
-      - Library/include/semaphore.h
-      - Library/include/sched.h
-      - Library/include/pthread*.h
-      - Library/lib/lib*pthread*.a
-      - Library/lib/pthread.lib
+    inherit: m2w64-sysroot-stage
     build:
       skip: not win
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
+      files:
+        - Library/include/semaphore.h
+        - Library/include/sched.h
+        - Library/include/pthread*.h
+        - Library/lib/lib*pthread*.a
+        - Library/lib/pthread.lib
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -144,11 +192,17 @@ outputs:
       run_exports:
         - ${{ pin_subpackage("libwinpthread", upper_bound=None) }}
     tests:
-      - script:
-          - if: unix
-            then: test -f ${PREFIX}/Library/include/pthread.h
-          - if: unix
-            then: test -f ${PREFIX}/Library/include/sched.h
+      - package_contents:
+          include:
+            - pthread.h
+            - sched.h
+            - semaphore.h
+          files:
+            - Library/lib/libpthread.a
+            - Library/lib/libpthread.dll.a
+            - Library/lib/libwinpthread.a
+            - Library/lib/libwinpthread.dll.a
+            - Library/lib/pthread.lib
     about:
       license: MIT AND BSD-3-Clause-Clear
       license_file:
@@ -160,15 +214,19 @@ outputs:
 
   - package:
       name: mingw-w64-ucrt-x86_64-crt-git
-    files:
-      - x86_64-w64-mingw32/sysroot/usr/include/*.c
-      - x86_64-w64-mingw32/sysroot/usr/lib
-      - Library/x86_64-w64-mingw32/sysroot/usr/include/*.c
-      - Library/x86_64-w64-mingw32/sysroot/usr/lib
+    inherit: m2w64-sysroot-stage
     build:
       noarch: generic
       merge_build_and_host_envs: false
-      script: install.sh
+      script:
+        file: install.sh
+        env:
+          target_platform: ${{ target_platform }}
+      files:
+        - x86_64-w64-mingw32/sysroot/usr/include/*.c
+        - x86_64-w64-mingw32/sysroot/usr/lib
+        - Library/x86_64-w64-mingw32/sysroot/usr/include/*.c
+        - Library/x86_64-w64-mingw32/sysroot/usr/lib
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -181,7 +239,14 @@ outputs:
           then: m2-conda-epoch
         - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-headers-git", exact=True) }}
       run_constraints:
-        - mingw-w64-ucrt-x86_64-winpthreads-git ${{ PKG_VERSION }}.*
+        - mingw-w64-ucrt-x86_64-winpthreads-git ${{ version }}.*
+    tests:
+      - package_contents:
+          files:
+            # sample test as stand-in for many
+            - if: unix
+              then: x86_64-w64-mingw32/sysroot/usr/lib/crt1.o
+              else: Library/x86_64-w64-mingw32/sysroot/usr/lib/crt1.o
     about:
       license: ZPL-2.1
       license_file: COPYING
@@ -191,10 +256,14 @@ outputs:
 
   - package:
       name: m2w64-sysroot_win-64
+    inherit: m2w64-sysroot-stage
     build:
       noarch: generic
       merge_build_and_host_envs: false
-      script: copy.sh
+      script:
+        file: copy.sh
+        env:
+          target_platform: ${{ target_platform }}
     requirements:
       build:
         - gcc_bootstrap_win-64
@@ -215,21 +284,18 @@ outputs:
         - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-winpthreads-git", exact=True) }}
       run_exports:
         strong:
-          - libwinpthread >=${{ PKG_VERSION }}
+          - libwinpthread >=${{ version }}
     tests:
-      - script:
-          - if: unix
-            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/usr/include/pthread.h
-          - if: unix
-            then: test -f ${PREFIX}/x86_64-w64-mingw32/sysroot/ucrt64/include/pthread.h
+      - package_contents:
+          files:
+            - etc/conda-build/dsolists.d/vcruntime_m2w64_win-64.json
+            - if: unix
+              then:
+                - x86_64-w64-mingw32/sysroot/ucrt64
     about:
       summary: |
         MinGW-w64 sysroot for Windows
       homepage: https://mingw-w64.sourceforge.io/
-
-tests:
-  - script:
-      - echo "hello"
 
 about:
   summary: A complete runtime environment for GCC & LLVM for 32 and 64 bit windows
