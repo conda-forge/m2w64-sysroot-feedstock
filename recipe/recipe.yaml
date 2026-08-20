@@ -1,28 +1,22 @@
 schema_version: 1
 
 context:
-  # replicate GIT_* variables based on output of `git describe --tags dc42231f0 [+local patches]`, c.f.
-  # https://github.com/conda/conda-build/blob/26.5.0/conda_build/environ.py#L253-L265
-  # https://docs.conda.io/projects/conda-build/en/stable/user-guide/environment-variables.html#git-environment-variables
-  GIT_DESCRIBE_TAG: "v12.0.0"
-  GIT_DESCRIBE_NUMBER: "4"
-  GIT_DESCRIBE_HASH: "g4f2fc60ca"
-  version: ${{ GIT_DESCRIBE_TAG[1:] }}.r${{ GIT_DESCRIBE_NUMBER }}.g${{ GIT_DESCRIBE_HASH }}
+  version: 14.0.0
 
 recipe:
   name: m2w64-sysroot
   version: ${{ version }}
 
 source:
-  git: https://github.com/mingw-w64/mingw-w64
-  rev: dc42231f0
+  url: https://github.com/mingw-w64/mingw-w64/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: d71cc644cd5a37c337f2719f3e0c79d89e8d8d5fb9e2952a62d3fa23623dc137
   patches:
     - 0001-Allow-to-use-bessel-and-complex-functions-without-un.patch
     - 0002-heades-add-full-name-winrt.patch
     - 0003-use-pthread_compat.h-in-sched.h.patch
 
 build:
-  number: 11
+  number: 0
 
 outputs:
   - staging:
