@@ -11,17 +11,19 @@ import os
 import shutil
 from ordered_set import OrderedSet as set
 
-date = "20240524"
+subdir = "clangarm64"
+conda_subdir = "win-arm64"
+pkg_prefix = "mingw-w64-clang-aarch64-"
+
+date = "20250618"
 binary_index_url = (
-    #"https://repo.msys2.org/mingw/ucrt64/"
-    f"https://github.com/conda-forge/msys2-recipes/releases/download/{date}-ucrt64/"
+    f"https://repo.msys2.org/mingw/{subdir}/"
+    #f"https://github.com/conda-forge/msys2-recipes/releases/download/{date}-{subdir}/"
 )
 source_url = (
-    #"https://repo.msys2.org/mingw/sources/"
-    f"https://github.com/conda-forge/msys2-recipes/releases/download/{date}-ucrt64/"
+    "https://repo.msys2.org/mingw/sources/"
+    #f"https://github.com/conda-forge/msys2-recipes/releases/download/{date}-{subdir}/"
 )
-
-pkg_prefix = "mingw-w64-ucrt-x86_64-"
 
 to_process = set([f"{pkg_prefix}crt", f"{pkg_prefix}winpthreads", f"{pkg_prefix}headers", f"{pkg_prefix}windows-default-manifest"])
 
@@ -36,7 +38,11 @@ provides = {
 seen = {}
 
 def get_pkgs():
-    directory_listing = requests.get(binary_index_url + "index.html").text
+    if "github" in binary_index_url:
+        directory_listing = requests.get(binary_index_url + "index.html").text
+    else:
+        directory_listing = requests.get(binary_index_url).text
+    print(directory_listing, binary_index_url)
     s = BeautifulSoup(directory_listing, "html.parser")
     full_names = [
         node.get("href")
@@ -55,7 +61,7 @@ def get_pkgs():
 
 
 pkg_latest_ver = dict(get_pkgs())
-
+print(pkg_latest_ver)
 
 def get_info(pkginfo, desc):
     return [
@@ -162,7 +168,7 @@ source:"""
 sources_template = """
   - url:
       - https://repo.msys2.org/mingw/{{ msys_type }}/{{ url_base }}
-      - https://github.com/conda-forge/msys2-recipes/releases/download/{{ date }}-ucrt64/{{ url_base }}
+      - https://github.com/conda-forge/msys2-recipes/releases/download/{{ date }}-{{ subdir }}/{{ url_base }}
     sha256: {{ sha256 }}
     folder: {{ type }}-{{ name }}{{ patches }}
 """
@@ -194,7 +200,7 @@ for pkg, (depends, spdx, desc, url, src_url) in seen.items():
                 .decode("utf-8")
                 .split(" ")[0]
             )
-            msys_type = "ucrt64"
+            msys_type = subdir
             url_base = f"{pkg}-{info}"
 
         info = {
@@ -206,6 +212,7 @@ for pkg, (depends, spdx, desc, url, src_url) in seen.items():
             "msys_type": msys_type,
             "patches": patches,
             "date": date,
+            "subdir": subdir,
         }
 
         text = sources_template
@@ -269,10 +276,10 @@ for pkg, (depends, spdx, desc, url, src_url) in seen.items():
 
 # print(dep_map)
 
-sysroot_version = get_version_from_info(pkg_latest_ver["mingw-w64-ucrt-x86_64-crt-git"])
+sysroot_version = get_version_from_info(pkg_latest_ver[f"{pkg_prefix}crt-git"])
 
 meta += f"""
-  - name: m2w64-sysroot_win-64
+  - name: m2w64-sysroot_{conda_subdir}
     version: {sysroot_version}
     build:
       noarch: generic
@@ -280,10 +287,10 @@ meta += f"""
       run:
         - __unix   # [unix]
         - __win    # [win]
-        - mingw-w64-ucrt-x86_64-windows-default-manifest
-        - mingw-w64-ucrt-x86_64-crt-git
-        - mingw-w64-ucrt-x86_64-headers-git
-        - mingw-w64-ucrt-x86_64-winpthreads-git
+        - {pkg_prefix}windows-default-manifest
+        - {pkg_prefix}crt-git
+        - {pkg_prefix}headers-git
+        - {pkg_prefix}winpthreads-git
     about:
       home: https://mingw-w64.sourceforge.io/
       summary: |

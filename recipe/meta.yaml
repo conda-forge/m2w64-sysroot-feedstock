@@ -1,75 +1,74 @@
-{% set name = "m2w64-sysroot" %}
-
 package:
-  name: {{ name|lower }}
-  version: 20240524
+  name: m2w64-gcc
+  version: 20250618
 
 source:
   - url:
-      - https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-windows-default-manifest-6.4-4-any.pkg.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-ucrt-x86_64-windows-default-manifest-6.4-4-any.pkg.tar.zst
-    sha256: 6d1c9e2ab75aace04d30fb43974b24d5505bfd7872ca23fea773fc9ae70bd248
-    folder: binary-mingw-w64-ucrt-x86_64-windows-default-manifest
+      - https://repo.msys2.org/mingw/clangarm64/mingw-w64-clang-aarch64-windows-default-manifest-6.4-4-any.pkg.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-clang-aarch64-windows-default-manifest-6.4-4-any.pkg.tar.zst
+    sha256: 3bde403468a3388aa7b8b0004955d37271e57d19c3a86467832393731958e18e
+    folder: binary-mingw-w64-clang-aarch64-windows-default-manifest
 
   - url:
       - https://repo.msys2.org/mingw/sources/mingw-w64-windows-default-manifest-6.4-4.src.tar.gz
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-windows-default-manifest-6.4-4.src.tar.gz
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-windows-default-manifest-6.4-4.src.tar.gz
     sha256: c608729d05c85968580a5cd8442d06aad5d649b8375b3ccc2943f337b77ee322
-    folder: source-mingw-w64-ucrt-x86_64-windows-default-manifest
+    folder: source-mingw-w64-clang-aarch64-windows-default-manifest
 
   - url:
-      - https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-headers-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-ucrt-x86_64-headers-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-    sha256: b5f53e512ea67d93401d30b04a434a8d0b9d4b6cb9df39c6cc133655c51c6b5c
-    folder: binary-mingw-w64-ucrt-x86_64-headers-git
+      - https://repo.msys2.org/mingw/clangarm64/mingw-w64-clang-aarch64-headers-git-13.0.0.r91.gfc0b67305-1-any.pkg.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-clang-aarch64-headers-git-13.0.0.r91.gfc0b67305-1-any.pkg.tar.zst
+    sha256: 57f33ec9b9596e5889ccee01c4a51079585817efa9a7a8f1d1796b9ebdee5249
+    folder: binary-mingw-w64-clang-aarch64-headers-git
 
   - url:
-      - https://repo.msys2.org/mingw/sources/mingw-w64-headers-git-11.0.0.r750.g05598db99-1.src.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-headers-git-11.0.0.r750.g05598db99-1.src.tar.zst
-    sha256: 394b97bd67d5949d0bc9f4996ecc29c656b2329f1c9aa8a6e3fa4664986adba4
-    folder: source-mingw-w64-ucrt-x86_64-headers-git
+      - https://repo.msys2.org/mingw/sources/mingw-w64-headers-git-13.0.0.r91.gfc0b67305-1.src.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-headers-git-13.0.0.r91.gfc0b67305-1.src.tar.zst
+    sha256: 9d467597ee036ccf13f25b0508bae6c191b818e6b6c70fd64c5d43e93e96dafb
+    folder: source-mingw-w64-clang-aarch64-headers-git
 
   - url:
-      - https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-winpthreads-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-ucrt-x86_64-winpthreads-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-    sha256: 7f3d1c62b00fabadcc24fa5a317452adc898ae6cfa6504c8bb42829d3413ba37
-    folder: binary-mingw-w64-ucrt-x86_64-winpthreads-git
+      - https://repo.msys2.org/mingw/clangarm64/mingw-w64-clang-aarch64-winpthreads-git-12.0.0.r81.g90abf784a-1-any.pkg.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-clang-aarch64-winpthreads-git-12.0.0.r81.g90abf784a-1-any.pkg.tar.zst
+    sha256: 1f06eb2b280f5288436cd9f1d446f0416a65d1d009e61cb685627f06590e59fb
+    folder: binary-mingw-w64-clang-aarch64-winpthreads-git
 
   - url:
-      - https://repo.msys2.org/mingw/sources/mingw-w64-winpthreads-git-11.0.0.r750.g05598db99-1.src.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-winpthreads-git-11.0.0.r750.g05598db99-1.src.tar.zst
-    sha256: 81a8beceb1f43796ae9545ca52709b3b4d71a12d8248d03a7946acd14766db1b
-    folder: source-mingw-w64-ucrt-x86_64-winpthreads-git
+      - https://repo.msys2.org/mingw/sources/mingw-w64-winpthreads-git-12.0.0.r81.g90abf784a-1.src.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-winpthreads-git-12.0.0.r81.g90abf784a-1.src.tar.zst
+    sha256: bdc6f6116f8c70584e11eb2162515568b1241eb4e2c55b6f9f3b1c316e935c2d
+    folder: source-mingw-w64-clang-aarch64-winpthreads-git
 
   - url:
-      - https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-libwinpthread-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-ucrt-x86_64-libwinpthread-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-    sha256: 10f636ed101de6e4855c64fa07c5666650b159bf4aae6c20e4f2cc9504539b0f
-    folder: binary-mingw-w64-ucrt-x86_64-libwinpthread-git
+      - https://repo.msys2.org/mingw/clangarm64/mingw-w64-clang-aarch64-libwinpthread-git-12.0.0.r81.g90abf784a-1-any.pkg.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-clang-aarch64-libwinpthread-git-12.0.0.r81.g90abf784a-1-any.pkg.tar.zst
+    sha256: 7f2f9b450026fa576d333aa5b6c5093e827477dfe4a402a7264b6b943a889581
+    folder: binary-mingw-w64-clang-aarch64-libwinpthread-git
 
   - url:
-      - https://repo.msys2.org/mingw/sources/mingw-w64-winpthreads-git-11.0.0.r750.g05598db99-1.src.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-winpthreads-git-11.0.0.r750.g05598db99-1.src.tar.zst
-    sha256: 81a8beceb1f43796ae9545ca52709b3b4d71a12d8248d03a7946acd14766db1b
-    folder: source-mingw-w64-ucrt-x86_64-libwinpthread-git
+      - https://repo.msys2.org/mingw/sources/mingw-w64-winpthreads-git-12.0.0.r81.g90abf784a-1.src.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-winpthreads-git-12.0.0.r81.g90abf784a-1.src.tar.zst
+    sha256: bdc6f6116f8c70584e11eb2162515568b1241eb4e2c55b6f9f3b1c316e935c2d
+    folder: source-mingw-w64-clang-aarch64-libwinpthread-git
 
   - url:
-      - https://repo.msys2.org/mingw/ucrt64/mingw-w64-ucrt-x86_64-crt-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-ucrt-x86_64-crt-git-11.0.0.r750.g05598db99-1-any.pkg.tar.zst
-    sha256: 990891149df1725446c598d3aceabe286ed7edf5b8bf8957ffff7af827e2d412
-    folder: binary-mingw-w64-ucrt-x86_64-crt-git
+      - https://repo.msys2.org/mingw/clangarm64/mingw-w64-clang-aarch64-crt-git-13.0.0.r91.gfc0b67305-1-any.pkg.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-clang-aarch64-crt-git-13.0.0.r91.gfc0b67305-1-any.pkg.tar.zst
+    sha256: 6bbaa84815dbcce572baed8590151ac4677a940dd7a2351631c23a322cc61042
+    folder: binary-mingw-w64-clang-aarch64-crt-git
 
   - url:
-      - https://repo.msys2.org/mingw/sources/mingw-w64-crt-git-11.0.0.r750.g05598db99-1.src.tar.zst
-      - https://github.com/conda-forge/msys2-recipes/releases/download/20240524-ucrt64/mingw-w64-crt-git-11.0.0.r750.g05598db99-1.src.tar.zst
-    sha256: 3563e4c579d641140efd1b49acb077e80d182ac9574cdb160eed80a9a35daa64
-    folder: source-mingw-w64-ucrt-x86_64-crt-git
+      - https://repo.msys2.org/mingw/sources/mingw-w64-crt-git-13.0.0.r91.gfc0b67305-1.src.tar.zst
+      - https://github.com/conda-forge/msys2-recipes/releases/download/20250618-clangarm64/mingw-w64-crt-git-13.0.0.r91.gfc0b67305-1.src.tar.zst
+    sha256: e27d19ed1b620b3927ee9316d80e9f2bb18dd1fd31bd892110c6da625e703370
+    folder: source-mingw-w64-clang-aarch64-crt-git
 
 build:
   number: 5
+  error_overlinking: false
 
 outputs:
-  - name: mingw-w64-ucrt-x86_64-windows-default-manifest
+  - name: mingw-w64-clang-aarch64-windows-default-manifest
     version: 6.4.4
     script: install_pkg.bat  # [build_platform.startswith("win-")]
     script: install_pkg.sh   # [not build_platform.startswith("win-")]
@@ -88,8 +87,8 @@ outputs:
       summary: |
         Default Windows application manifest (mingw-w64)
 
-  - name: mingw-w64-ucrt-x86_64-headers-git
-    version: 11.0.0.r750.g05598db99.1
+  - name: mingw-w64-clang-aarch64-headers-git
+    version: 13.0.0.r91.gfc0b67305.1
     script: install_pkg.bat  # [build_platform.startswith("win-")]
     script: install_pkg.sh   # [not build_platform.startswith("win-")]
     build:
@@ -107,29 +106,29 @@ outputs:
       summary: |
         MinGW-w64 headers for Windows (mingw-w64)
 
-  - name: mingw-w64-ucrt-x86_64-winpthreads-git
-    version: 11.0.0.r750.g05598db99.1
+  - name: mingw-w64-clang-aarch64-winpthreads-git
+    version: 12.0.0.r81.g90abf784a.1
     script: install_pkg.bat  # [build_platform.startswith("win-")]
     script: install_pkg.sh   # [not build_platform.startswith("win-")]
     build:
       noarch: generic
     requirements:
       host:
-        - mingw-w64-ucrt-x86_64-crt-git
-        - mingw-w64-ucrt-x86_64-libwinpthread-git =11.0.0.r750.g05598db99
+        - mingw-w64-clang-aarch64-crt-git
+        - mingw-w64-clang-aarch64-libwinpthread-git =12.0.0.r81.g90abf784a
       run:
         - __unix   # [unix]
         - __win    # [win]
-        - mingw-w64-ucrt-x86_64-crt-git
-        - mingw-w64-ucrt-x86_64-libwinpthread-git =11.0.0.r750.g05598db99
+        - mingw-w64-clang-aarch64-crt-git
+        - mingw-w64-clang-aarch64-libwinpthread-git =12.0.0.r81.g90abf784a
     about:
       home: https://www.mingw-w64.org/
       license: MIT AND BSD-3-Clause-Clear
       summary: |
         MinGW-w64 winpthreads library (mingw-w64)
 
-  - name: mingw-w64-ucrt-x86_64-libwinpthread-git
-    version: 11.0.0.r750.g05598db99.1
+  - name: mingw-w64-clang-aarch64-libwinpthread-git
+    version: 12.0.0.r81.g90abf784a.1
     script: install_pkg.bat  # [build_platform.startswith("win-")]
     script: install_pkg.sh   # [not build_platform.startswith("win-")]
     build:
@@ -147,37 +146,37 @@ outputs:
       summary: |
         MinGW-w64 winpthreads library (mingw-w64)
 
-  - name: mingw-w64-ucrt-x86_64-crt-git
-    version: 11.0.0.r750.g05598db99.1
+  - name: mingw-w64-clang-aarch64-crt-git
+    version: 13.0.0.r91.gfc0b67305.1
     script: install_pkg.bat  # [build_platform.startswith("win-")]
     script: install_pkg.sh   # [not build_platform.startswith("win-")]
     build:
       noarch: generic
     requirements:
       host:
-        - mingw-w64-ucrt-x86_64-headers-git
+        - mingw-w64-clang-aarch64-headers-git
       run:
         - __unix   # [unix]
         - __win    # [win]
-        - mingw-w64-ucrt-x86_64-headers-git
+        - mingw-w64-clang-aarch64-headers-git
     about:
       home: https://www.mingw-w64.org/
       license: ZPL-2.1
       summary: |
         MinGW-w64 CRT for Windows (mingw-w64)
 
-  - name: m2w64-sysroot_win-64
-    version: 11.0.0.r750.g05598db99.1
+  - name: m2w64-sysroot_win-arm64
+    version: 13.0.0.r91.gfc0b67305.1
     build:
       noarch: generic
     requirements:
       run:
         - __unix   # [unix]
         - __win    # [win]
-        - mingw-w64-ucrt-x86_64-windows-default-manifest
-        - mingw-w64-ucrt-x86_64-crt-git
-        - mingw-w64-ucrt-x86_64-headers-git
-        - mingw-w64-ucrt-x86_64-winpthreads-git
+        - mingw-w64-clang-aarch64-windows-default-manifest
+        - mingw-w64-clang-aarch64-crt-git
+        - mingw-w64-clang-aarch64-headers-git
+        - mingw-w64-clang-aarch64-winpthreads-git
     about:
       home: https://mingw-w64.sourceforge.io/
       summary: |
