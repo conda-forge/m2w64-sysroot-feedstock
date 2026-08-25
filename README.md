@@ -94,31 +94,73 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libwinpthread, m2w64-sysroot_win-64, mingw-w64-ucrt-x86_64-crt-git, mingw-w64-ucrt-x86_64-headers-git, mingw-w64-ucrt-x86_64-winpthreads-git, winpthreads-devel` can be installed with `conda`:
+How to use
+----------
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda install libwinpthread m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-winpthreads-git winpthreads-devel
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba install libwinpthread m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-winpthreads-git winpthreads-devel
 ```
 
-It is possible to list all of the versions of `libwinpthread` available on your platform with `conda`:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+# for adding to your local project
+pixi add libwinpthread m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-winpthreads-git winpthreads-devel
+# for installing globally
+pixi global install libwinpthread m2w64-sysroot_win-64 mingw-w64-ucrt-x86_64-crt-git mingw-w64-ucrt-x86_64-headers-git mingw-w64-ucrt-x86_64-winpthreads-git winpthreads-devel
+```
+
+</details>
+
+Search package versions
+-----------------------
+
+It is possible to list all of the versions of `libwinpthread` available on your platform:
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda search libwinpthread --channel conda-forge
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba search libwinpthread --channel conda-forge
 ```
 
-Alternatively, `mamba repoquery` may provide more information:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+pixi search libwinpthread --channel conda-forge
+```
+
+</details>
+
+<details>
+<summary>With mamba repoquery, which may provide more information</summary>
 
 ```
 # Search all versions available on your platform:
@@ -130,6 +172,8 @@ mamba repoquery whoneeds libwinpthread --channel conda-forge
 # List dependencies of `libwinpthread`:
 mamba repoquery depends libwinpthread --channel conda-forge
 ```
+
+</details>
 
 
 About conda-forge
