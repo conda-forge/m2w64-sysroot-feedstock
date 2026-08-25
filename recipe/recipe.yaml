@@ -22,7 +22,7 @@ source:
     - 0003-use-pthread_compat.h-in-sched.h.patch
 
 build:
-  number: 11
+  number: 12
 
 outputs:
   - staging:
@@ -46,13 +46,29 @@ outputs:
           # work-around for r-b using noarch
           target_platform: ${{ target_platform }}
       files:
-        - x86_64-w64-mingw32/sysroot/usr/include
-        - Library/x86_64-w64-mingw32/sysroot/usr/include
+        include:
+          - x86_64-w64-mingw32/sysroot/usr/include
+          - Library/x86_64-w64-mingw32/sysroot/usr/include
+        exclude:
+          - x86_64-w64-mingw32/sysroot/usr/include/*.c
+          - Library/x86_64-w64-mingw32/sysroot/usr/include/*.c
+          # need to manually exclude content of mingw-w64-ucrt-x86_64-winpthreads-git,
+          # because we cannot host-depend on it due to rattler's too-strict cycle detection
+          - x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
+          - x86_64-w64-mingw32/sysroot/usr/include/sched.h
+          - x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+          - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+          - Library/x86_64-w64-mingw32/sysroot/usr/include/semaphore.h
+          - Library/x86_64-w64-mingw32/sysroot/usr/include/sched.h
+          - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+          - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
     requirements:
       build:
         - gcc_bootstrap_win-64
         - make
       host:
+        # not possible due to https://github.com/prefix-dev/rattler-build/issues/2762
+        # - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-winpthreads-git", exact=True) }}
       run:
         - if: unix
           then: __unix
@@ -64,10 +80,18 @@ outputs:
     tests:
       - package_contents:
           files:
+            exists:
             # sample test as stand-in for many
             - if: unix
               then: x86_64-w64-mingw32/sysroot/usr/include/_mingw.h
               else: Library/x86_64-w64-mingw32/sysroot/usr/include/_mingw.h
+            not_exists:
+              - x86_64-w64-mingw32/sysroot/usr/include/*.c
+              - x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+              - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+              - Library/x86_64-w64-mingw32/sysroot/usr/include/*.c
+              - Library/x86_64-w64-mingw32/sysroot/usr/include/pthread*.h
+              - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
     about:
       license: ZPL-2.1 AND LGPL-2.1-or-later
       license_file:
@@ -232,6 +256,7 @@ outputs:
         - gcc_bootstrap_win-64
         - make
       host:
+        - ${{ pin_subpackage("mingw-w64-ucrt-x86_64-winpthreads-git", exact=True) }}
       run:
         - if: unix
           then: __unix
@@ -243,10 +268,14 @@ outputs:
     tests:
       - package_contents:
           files:
+            exists:
             # sample test as stand-in for many
             - if: unix
               then: x86_64-w64-mingw32/sysroot/usr/lib/crt1.o
               else: Library/x86_64-w64-mingw32/sysroot/usr/lib/crt1.o
+            not_exists:
+              - x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
+              - Library/x86_64-w64-mingw32/sysroot/usr/lib/lib*pthread*.a
     about:
       license: ZPL-2.1
       license_file: COPYING
